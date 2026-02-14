@@ -18,7 +18,6 @@ body {
   height: 100vh;
 }
 
-/* Fondo canvas */
 canvas {
   position: fixed;
   top: 0;
@@ -26,7 +25,6 @@ canvas {
   z-index: 0;
 }
 
-/* Caja central */
 .card {
   position: relative;
   z-index: 2;
@@ -61,7 +59,6 @@ button:hover {
   transform: scale(1.1);
 }
 
-/* Imagen oculta */
 .hiddenImage {
   display: none;
   margin-top: 20px;
@@ -79,32 +76,34 @@ button:hover {
 
 <canvas id="matrix"></canvas>
 
-<div class="card" id="card">
+<div class="card">
   <h1>
     Nuestro Amor Es Eterno { <br><br>
-    lo construimos() { <br>
-    Janier = "❤️"; <br>
-    Allison = "❤️"; <br>
+    lo construimos juntos  <br>
+    Porque somos una pareja increible 💜 <br>
+    Allison daría mi vida por tí 💜 <br>
     Nuestra Promesa es Para siempre; <br>
     } <br><br>
-    System filed critical levels of love() { <br>
-    return "Janier ❤️ Allison<br><br>
+    System filed critical levels of love  <br>
+   
+    Regresa a mi lado ❤️ Allison<br><br>
     Eres mi código favorito el que estructura mi vida,<br>
+    Te amo,<br>
     Quemas mis circuitos hermosa,<br>
-    y mi sistema operativo no funciona sin tu amor 💜"; <br>
-    } <br>
-    }
+    y mi sistema operativo no funciona sin tu amor 💜 <br><br>
   </h1>
 
   <button onclick="mostrarImagen()">Quieres ver nuestro destino? 💜</button>
 
   <div class="hiddenImage" id="imagen">
-    <img src="https://i.postimg.cc/jq107Nyw/Whats-App-Image-2026-02-14-at-11-43-21.jpg" alt="Imagen romántica">
+    <img src="https://i.postimg.cc/jq107Nyw/Whats-App-Image-2026-02-14-at-11-43-21.jpg">
   </div>
 </div>
 
+<!-- AUDIO -->
+<audio id="musica" src="AQUI_TU_LINK_MP3.mp3" loop></audio>
+
 <script>
-// MATRIX MORADO
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -117,6 +116,10 @@ const columns = canvas.width / fontSize;
 
 const drops = [];
 
+// 🎨 COLORES PASTEL
+let coloresPastel = ["#ffadad","#ffd6a5","#fdffb6","#caffbf","#9bf6ff","#bdb2ff","#ffc6ff"];
+let modoFiesta = false;
+
 for (let x = 0; x < columns; x++) {
   drops[x] = 1;
 }
@@ -125,7 +128,12 @@ function draw() {
   ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = "#c77dff";
+  if(modoFiesta){
+    ctx.fillStyle = coloresPastel[Math.floor(Math.random()*coloresPastel.length)];
+  } else {
+    ctx.fillStyle = "#c77dff";
+  }
+
   ctx.font = fontSize + "px monospace";
 
   for (let i = 0; i < drops.length; i++) {
@@ -141,12 +149,15 @@ function draw() {
 
 setInterval(draw, 35);
 
-// Mostrar imagen
+// BOTÓN
 function mostrarImagen() {
   document.getElementById("imagen").style.display = "block";
+  document.getElementById("musica").play();
+  modoFiesta = true;
 }
 </script>
 
 </body>
 </html>
+
 
