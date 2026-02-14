@@ -1,162 +1,352 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Nuestro Amor 💜</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #1a1a1a;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+      perspective: 1000px;
+    }
+    
+    .container {
+      text-align: center;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+    
+    .heart {
+      position: absolute;
+      animation: floatHeart 4s ease-in-out infinite;
+      opacity: 0;
+      font-size: 24px;
+      color: #ff4d4d;
+      text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+    }
+    
+    .code-block {
+      background: #2d2d2d;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
+      color: #fff;
+      max-width: 600px;
+      margin: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 1s ease forwards;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .code-block::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 77, 77, 0.1),
+        transparent
+      );
+      transform: rotate(45deg);
+      animation: shine 3s infinite;
+    }
+    
+    .line {
+      margin: 10px 0;
+      opacity: 0;
+      transform: translateX(-20px);
+      position: relative;
+    }
+    
+    .keyword {
+      color: #ff69b4;
+      text-shadow: 0 0 5px rgba(255, 105, 180, 0.3);
+    }
+    
+    .string {
+      color: #98c379;
+      text-shadow: 0 0 5px rgba(152, 195, 121, 0.3);
+    }
+    
+    .comment {
+      color: #7f848e;
+    }
+    
+    .function {
+      color: #61afef;
+      text-shadow: 0 0 5px rgba(97, 175, 239, 0.3);
+    }
+    
+    .number {
+      color: #d19a66;
+      text-shadow: 0 0 5px rgba(209, 154, 102, 0.3);
+    }
+    
+    @keyframes floatHeart {
+      0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+        transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1.2);
+      }
+      80% {
+        opacity: 1;
+        transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.8);
+      }
+      100% {
+        transform: translate(var(--tx), -100vh) rotate(var(--rot)) scale(0.5);
+        opacity: 0;
+      }
+    }
+    
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes typeIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes shine {
+      0% {
+        transform: translateX(-100%) rotate(45deg);
+      }
+      100% {
+        transform: translateX(100%) rotate(45deg);
+      }
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(255, 77, 77, 0.5);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
+      }
+    }
+    
+    .click-me {
+      background: linear-gradient(45deg, #ff4d4d, #ff69b4);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      margin-top: 20px;
+      transition: all 0.3s;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      animation: pulse 2s infinite;
+    }
+    
+    .click-me:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px rgba(255, 77, 77, 0.5);
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    .matrix-rain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
 
-<style>
-body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#f6a5ff,#c084fc,#a855f7);
-  overflow:hidden;
-  color:white;
-  text-align:center;
-}
+    .output-message {
+      background: rgba(45, 45, 45, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.5s;
+    }
 
-/* SVG árbol */
-svg{
-  width:420px;
-  height:500px;
-}
+    .output-message.show {
+      opacity: 1;
+      transform: scale(1);
+    }
 
-/* Dibujo del árbol */
-path{
-  fill:none;
-  stroke:#4b1d00;
-  stroke-width:5;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-  stroke-dasharray:1000;
-  stroke-dashoffset:1000;
-  animation:drawTree 4s ease forwards;
-}
+    .particle {
+      position: absolute;
+      pointer-events: none;
+      animation: particle 1s linear forwards;
+    }
 
-@keyframes drawTree{
-  to{
-    stroke-dashoffset:0;
-  }
-}
-
-/* Corazones */
-.heart{
-  fill:#ff4d88;
-  opacity:0;
-  transform-origin:center;
-  animation:float 4s ease-in-out infinite alternate;
-}
-
-@keyframes appear{
-  to{ opacity:1; }
-}
-
-@keyframes float{
-  from{ transform:translateY(0px); }
-  to{ transform:translateY(-8px); }
-}
-
-h1{
-  font-family:'Cormorant Garamond', serif;
-  font-size:52px;
-  margin:10px 0 0;
-}
-
-p{
-  font-family:'Montserrat', sans-serif;
-  font-size:16px;
-  opacity:0.9;
-}
-
-#contador{
-  margin-top:15px;
-  font-family:'Montserrat', sans-serif;
-  font-size:18px;
-}
-</style>
+    @keyframes particle {
+      0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <canvas class="matrix-rain"></canvas>
+  <div class="container">
+    <div class="code-block">
+      <div class="line"><span class="keyword">class</span> <span class="function">ValentineMessage</span> {</div>
+      <div class="line">  <span class="keyword">constructor</span>() {</div>
+      <div class="line">    <span class="keyword">this</span>.love = <span class="string">"∞"</span>;</div>
+      <div class="line">    <span class="keyword">this</span>.heart = <span class="keyword">new</span> <span class="function">Promise</span>((resolve) => {</div>
+      <div class="line">      resolve(<span class="string">"forever"</span>);</div>
+      <div class="line">    });</div>
+      <div class="line">  }</div>
+      <div class="line">  </div>
+      <div class="line">  <span class="comment">// You've stolen the key to my heart.encode()</span></div>
+      <div class="line">  <span class="keyword">async</span> <span class="function">expressLove</span>() {</div>
+      <div class="line">    <span class="keyword">while</span>(<span class="keyword">true</span>) {</div>
+      <div class="line">      <span class="keyword">await</span> <span class="keyword">this</span>.heart;</div>
+      <div class="line">      <span class="keyword">return</span> <span class="string">"Will you be my Valentine? 💝"</span>;</div>
+      <div class="line">    }</div>
+      <div class="line">  }</div>
+      <div class="line">}</div>
+    </div>
+    <button class="click-me">Execute Love.js ❤️</button>
+    <div class="output-message"></div>
+  </div>
 
-<svg viewBox="0 0 400 500">
+  <script>
+    // Matrix rain effect
+    const canvas = document.querySelector('.matrix-rain');
+    const ctx = canvas.getContext('2d');
+    
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    
+    const chars = '❤️💕💝LOVE1234567890';
+    const drops = [];
+    const fontSize = 16;
+    const columns = width / fontSize;
+    
+    for(let i = 0; i < columns; i++) {
+      drops[i] = 1;
+    }
+    
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(26, 26, 26, 0.05)';
+      ctx.fillRect(0, 0, width, height);
+      
+      ctx.fillStyle = '#ff4d4d';
+      ctx.font = fontSize + 'px monospace';
+      
+      for(let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        
+        if(drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
 
-  <!-- TRONCO -->
-  <path d="M200 480 L200 300" />
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = ['❤️', '💝', '💕'][Math.floor(Math.random() * 3)];
+      heart.style.setProperty('--tx', `${Math.random() * 400 - 200}px`);
+      heart.style.setProperty('--ty', `${Math.random() * -300}px`);
+      heart.style.setProperty('--rot', `${Math.random() * 360}deg`);
+      heart.style.left = `${Math.random() * window.innerWidth}px`;
+      heart.style.bottom = '0';
+      document.body.appendChild(heart);
+      
+      setTimeout(() => {
+        heart.remove();
+      }, 4000);
+    }
 
-  <!-- RAMAS IZQUIERDA -->
-  <path d="M200 350 C160 330, 140 300, 130 270" />
-  <path d="M200 330 C150 310, 120 270, 110 240" />
-  <path d="M200 310 C170 290, 150 250, 145 220" />
+    function createParticle(x, y) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.innerHTML = ['❤️', '✨', '💝'][Math.floor(Math.random() * 3)];
+      particle.style.left = x + 'px';
+      particle.style.top = y + 'px';
+      particle.style.setProperty('--tx', `${Math.random() * 200 - 100}px`);
+      particle.style.setProperty('--ty', `${Math.random() * 200 - 100}px`);
+      document.body.appendChild(particle);
+      
+      setTimeout(() => particle.remove(), 1000);
+    }
 
-  <!-- RAMAS DERECHA -->
-  <path d="M200 350 C240 330, 260 300, 270 270" />
-  <path d="M200 330 C250 310, 280 270, 290 240" />
-  <path d="M200 310 C230 290, 250 250, 255 220" />
+    const lines = document.querySelectorAll('.line');
+    lines.forEach((line, index) => {
+      line.style.animation = `typeIn 0.5s ${index * 0.1}s forwards`;
+    });
 
-  <!-- CORAZONES -->
-  <g id="hearts"></g>
+    let heartInterval;
+    let matrixInterval;
+    const button = document.querySelector('.click-me');
+    const outputMessage = document.querySelector('.output-message');
+    
+    button.addEventListener('click', (e) => {
+      if (!heartInterval) {
+        // Create particles on button click
+        for(let i = 0; i < 20; i++) {
+          createParticle(e.clientX, e.clientY);
+        }
+        
+        heartInterval = setInterval(createHeart, 200);
+        matrixInterval = setInterval(drawMatrix, 50);
+        button.textContent = 'Stop Love.js ❤️';
+        
+        outputMessage.innerHTML = `
+          <span class="keyword">console</span>.log(<span class="string">"Loading love.exe..."</span>)<br>
+          <span class="keyword">await</span> heart.connect()<br>
+          <span class="string">"💝 Will you be my Valentine? 💝"</span>
+        `;
+        outputMessage.classList.add('show');
+      } else {
+        clearInterval(heartInterval);
+        clearInterval(matrixInterval);
+        heartInterval = null;
+        matrixInterval = null;
+        button.textContent = 'Execute Love.js ❤️';
+        outputMessage.classList.remove('show');
+      }
+    });
 
-</svg>
-
-<h1>Nuestro Amor 💜</h1>
-<p>Eres lo mejor que me ha pasado.</p>
-<div id="contador"></div>
-
-<script>
-/* Generar corazones organizados */
-const svg = document.querySelector("svg");
-const heartGroup = document.getElementById("hearts");
-
-function createHeart(x,y,delay){
-  const heart = document.createElementNS("http://www.w3.org/2000/svg","path");
-  heart.setAttribute("d","M0,-6 C-6,-12 -18,-2 0,12 C18,-2 6,-12 0,-6 Z");
-  heart.setAttribute("transform",`translate(${x},${y}) scale(1.2)`);
-  heart.setAttribute("class","heart");
-  heart.style.animationDelay = delay + "s";
-  heart.style.animation += ", appear 1s forwards";
-  heartGroup.appendChild(heart);
-}
-
-for(let i=0;i<25;i++){
-  let x = 200 + (Math.random()*160 - 80);
-  let y = 180 + Math.random()*80;
-  createHeart(x,y,4 + Math.random()*2);
-}
-
-/* CONTADOR */
-const fechaInicio = new Date("2022-08-22T00:00:00");
-
-function calcularTiempo(){
-  const ahora = new Date();
-
-  let años = ahora.getFullYear() - fechaInicio.getFullYear();
-  let meses = ahora.getMonth() - fechaInicio.getMonth();
-  let dias = ahora.getDate() - fechaInicio.getDate();
-
-  if(dias < 0){
-    meses--;
-    const ultimoMes = new Date(ahora.getFullYear(), ahora.getMonth(), 0).getDate();
-    dias += ultimoMes;
-  }
-
-  if(meses < 0){
-    años--;
-    meses += 12;
-  }
-
-  document.getElementById("contador").innerHTML =
-  `Llevamos ${años} años, ${meses} meses y ${dias} días juntos 💖`;
-}
-
-setInterval(calcularTiempo,1000);
-calcularTiempo();
-</script>
-
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+  </script>
 </body>
 </html>
-
