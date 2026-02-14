@@ -16,7 +16,7 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  transition: 0.8s;
+  transition: 1s;
 }
 
 canvas {
@@ -24,6 +24,7 @@ canvas {
   top: 0;
   left: 0;
   z-index: 0;
+  transition: 1s;
 }
 
 .card {
@@ -36,7 +37,7 @@ canvas {
   text-align: center;
   max-width: 700px;
   margin-top: 100px;
-  transition: 0.8s;
+  transition: 1s;
 }
 
 #texto {
@@ -46,9 +47,7 @@ canvas {
   white-space: pre-wrap;
 }
 
-.cursor {
-  animation: blink 1s infinite;
-}
+.cursor { animation: blink 1s infinite; }
 @keyframes blink { 50% {opacity:0;} }
 
 button {
@@ -64,45 +63,33 @@ button {
   transition: 0.3s;
   position: relative;
 }
-
 button:hover { transform: scale(1.1); }
 
-#noBtn {
-  position: absolute;
-}
+#noBtn { position: absolute; }
 
-.hiddenImage {
-  display: none;
-  margin-top: 25px;
-}
-
+.hiddenImage { display:none; margin-top:25px; }
 .hiddenImage img {
-  width: 300px;
-  border-radius: 15px;
-  box-shadow: 0 0 25px #ff4d6d;
-  transition: 0.5s;
+  width:300px;
+  border-radius:15px;
+  box-shadow:0 0 30px pink;
 }
 
-.mensajeRomantico {
+.mensajeFinal {
   position: fixed;
-  top: 40%;
-  font-size: 50px;
-  font-weight: bold;
-  text-align: center;
-  color: white;
-  text-shadow: 0 0 20px pink;
-  animation: aparecer 1s ease forwards;
-  z-index: 5;
+  top:40%;
+  font-size:50px;
+  font-weight:bold;
+  text-align:center;
+  color:white;
+  text-shadow:0 0 30px #ff4d6d;
+  animation:fadeIn 2s ease forwards;
+  z-index:5;
 }
-
-@keyframes aparecer {
-  from { opacity:0; transform:scale(0.5);}
-  to { opacity:1; transform:scale(1);}
-}
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
 
 .corazon {
   position: fixed;
-  color: #ff4d6d;
+  color:#ff4d6d;
   animation: flotar 4s linear infinite;
 }
 @keyframes flotar {
@@ -131,122 +118,139 @@ button:hover { transform: scale(1.1); }
   </div>
 
   <div class="hiddenImage" id="imagenPropuesta">
-    <!-- 🔥 AQUÍ PONES TU IMAGEN DE PROPUESTA -->
     <img src="AQUI_TU_IMAGEN_DE_PROPUESTA.jpg">
   </div>
 </div>
 
+<!-- Música romántica -->
 <audio id="musica" loop>
   <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Latido -->
+<audio id="latido">
+  <source src="https://www.soundjay.com/human/heartbeat-01a.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
 /* MATRIX */
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+canvas.height=window.innerHeight;
+canvas.width=window.innerWidth;
 
-const letters = "01❤JANIERALLISON";
-const fontSize = 16;
-const columns = canvas.width / fontSize;
-const drops = [];
-let colores = ["#c77dff","#ff4d6d","#00f5d4","#ffd60a","#ff85a1","#80ffdb"];
-let colorActual = "#c77dff";
+const letters="01❤JANIERALLISON";
+const fontSize=16;
+const columns=canvas.width/fontSize;
+const drops=[];
+let colores=["#c77dff","#ff4d6d","#00f5d4","#ffd60a","#ff85a1","#80ffdb"];
+let colorActual="#c77dff";
+let matrixActivo=true;
 
-for (let x = 0; x < columns; x++) drops[x] = 1;
+for(let x=0;x<columns;x++) drops[x]=1;
 
-function draw() {
-  ctx.fillStyle = "rgba(0,0,0,0.08)";
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = colorActual;
-  ctx.font = fontSize + "px monospace";
-  for (let i = 0; i < drops.length; i++) {
-    const text = letters.charAt(Math.floor(Math.random()*letters.length));
-    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
-    if (drops[i]*fontSize > canvas.height && Math.random()>0.985)
-      drops[i]=0;
-    drops[i]++;
-  }
-}
+function draw(){
+if(!matrixActivo) return;
+ctx.fillStyle="rgba(0,0,0,0.08)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle=colorActual;
+ctx.font=fontSize+"px monospace";
+for(let i=0;i<drops.length;i++){
+const text=letters.charAt(Math.floor(Math.random()*letters.length));
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+if(drops[i]*fontSize>canvas.height && Math.random()>0.985) drops[i]=0;
+drops[i]++;
+}}
 setInterval(draw,70);
 
 /* TEXTO */
-const mensaje = `
-Te encontraría. En cualquier tiempo. En cualquier lugar. Si tuviera que atravesar siglos... 
-Lo haría por ti." Y si mi alma tuviera que elegir de nuevo, siempre elegiría tu mirada, tu risa, tu forma de abrazarme como si el mundo se detuviera. 
-Porque no importa la época, no importa el destino, mi corazón siempre sabrá encontrarte.
+const mensaje=`
+Te encontraría en cualquier universo.
+Porque no importa el tiempo...
+Siempre serías tú.
 `;
-
 let i=0;
 function escribir(){
-  if(i<mensaje.length){
-    document.getElementById("texto").innerHTML+=mensaje.charAt(i);
-    i++;
-    setTimeout(escribir,70);
-  }
-}
+if(i<mensaje.length){
+document.getElementById("texto").innerHTML+=mensaje.charAt(i);
+i++; setTimeout(escribir,70);
+}}
 escribir();
 
-/* CAMBIO DE COLOR */
-
+/* COLOR */
 function cambiarColor(){
-  colorActual = colores[Math.floor(Math.random()*colores.length)];
-  document.body.style.background=`linear-gradient(45deg,${colorActual},black)`;
-  document.getElementById("card").style.boxShadow=`0 0 40px ${colorActual}`;
+colorActual=colores[Math.floor(Math.random()*colores.length)];
+document.body.style.background=`linear-gradient(45deg,${colorActual},black)`;
+document.getElementById("card").style.boxShadow=`0 0 40px ${colorActual}`;
 }
 
 /* BOTONES */
 
 function modoViaje(){
-  document.getElementById("imagenViaje").style.display="block";
-  document.getElementById("imagenPropuesta").style.display="none";
-  cambiarColor();
-  musica.play();
+document.getElementById("imagenViaje").style.display="block";
+document.getElementById("imagenPropuesta").style.display="none";
+cambiarColor();
+musica.play();
 }
 
+let intentos=0;
+
 function aceptar(){
-  document.getElementById("imagenPropuesta").style.display="block";
-  document.getElementById("imagenViaje").style.display="none";
-  cambiarColor();
-  musica.play();
-  explosionCorazones();
-  mostrarMensaje();
+document.getElementById("imagenPropuesta").style.display="block";
+document.getElementById("imagenViaje").style.display="none";
+cambiarColor();
+musica.play();
+latido.play();
+explosionCorazones();
+modoGalaxia();
+mostrarMensajeFinal();
 }
 
 function huir(){
-  const btn=document.getElementById("noBtn");
-  btn.style.top=Math.random()*80+"vh";
-  btn.style.left=Math.random()*80+"vw";
+intentos++;
+const btn=document.getElementById("noBtn");
+btn.style.top=Math.random()*80+"vh";
+btn.style.left=Math.random()*80+"vw";
+
+if(intentos>=3){
+btn.disabled=true;
+btn.innerText="Mejor sí 💖";
+}
 }
 
 /* EFECTOS */
 
 function explosionCorazones(){
-  for(let i=0;i<25;i++){
-    const corazon=document.createElement("div");
-    corazon.classList.add("corazon");
-    corazon.innerHTML="❤";
-    corazon.style.left=Math.random()*100+"vw";
-    corazon.style.fontSize=(Math.random()*40+20)+"px";
-    corazon.style.animationDuration=(Math.random()*3+2)+"s";
-    document.body.appendChild(corazon);
-    setTimeout(()=>{corazon.remove();},4000);
-  }
+for(let i=0;i<30;i++){
+const corazon=document.createElement("div");
+corazon.classList.add("corazon");
+corazon.innerHTML="❤";
+corazon.style.left=Math.random()*100+"vw";
+corazon.style.fontSize=(Math.random()*40+20)+"px";
+corazon.style.animationDuration=(Math.random()*3+2)+"s";
+document.body.appendChild(corazon);
+setTimeout(()=>{corazon.remove();},4000);
+}}
+
+function modoGalaxia(){
+matrixActivo=false;
+canvas.style.opacity="0";
+document.body.style.background="radial-gradient(circle at center, #ff4d6d, #1a001f, black)";
 }
 
-function mostrarMensaje(){
-  const mensaje=document.createElement("div");
-  mensaje.classList.add("mensajeRomantico");
-  mensaje.innerHTML="";
-  document.body.appendChild(mensaje);
+function mostrarMensajeFinal(){
+const mensaje=document.createElement("div");
+mensaje.classList.add("mensajeFinal");
+mensaje.innerHTML="💍 Nuestro universo comienza aquí 💍";
+document.body.appendChild(mensaje);
 }
 
 </script>
 
 </body>
 </html>
+
 
 
 
