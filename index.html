@@ -80,27 +80,29 @@ button:hover { transform: scale(1.1); }
   width: 300px;
   border-radius: 15px;
   box-shadow: 0 0 25px #ff4d6d;
+  transition: 0.5s;
 }
 
-.mensajeGigante {
+.mensajeRomantico {
   position: fixed;
   top: 40%;
-  font-size: 60px;
-  color: #ff4d6d;
-  text-shadow: 0 0 20px #ff4d6d;
-  animation: zoom 1s ease forwards;
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  text-shadow: 0 0 20px pink;
+  animation: aparecer 1s ease forwards;
   z-index: 5;
 }
 
-@keyframes zoom {
-  from { transform: scale(0); }
-  to { transform: scale(1); }
+@keyframes aparecer {
+  from { opacity:0; transform:scale(0.5);}
+  to { opacity:1; transform:scale(1);}
 }
 
 .corazon {
   position: fixed;
   color: #ff4d6d;
-  font-size: 20px;
   animation: flotar 4s linear infinite;
 }
 @keyframes flotar {
@@ -119,23 +121,22 @@ button:hover { transform: scale(1.1); }
 
   <br><br>
 
-  <button onclick="modoAmor()">Viajar en el tiempo 💜</button>
+  <button onclick="modoViaje()">Viajar en el tiempo</button>
   <br>
-  <button onclick="mostrarPropuesta()">Sí 💘</button>
-  <button id="noBtn" onmouseover="huir()">No :C</button>
+  <button onclick="aceptar()">Sí, quiero</button>
+  <button id="noBtn" onmouseover="huir()">No</button>
 
   <div class="hiddenImage" id="imagenViaje">
     <img src="https://i.postimg.cc/jq107Nyw/Whats-App-Image-2026-02-14-at-11-43-21.jpg">
   </div>
 
   <div class="hiddenImage" id="imagenPropuesta">
-    <!-- 🔥 AQUI PONES TU IMAGEN DE PROPUESTA -->
+    <!-- 🔥 AQUÍ PONES TU IMAGEN DE PROPUESTA -->
     <img src="AQUI_TU_IMAGEN_DE_PROPUESTA.jpg">
   </div>
 </div>
 
 <audio id="musica" loop>
-  <!-- 🎵 CAMBIA POR TU MP3 -->
   <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
 </audio>
 
@@ -151,12 +152,15 @@ const letters = "01❤JANIERALLISON";
 const fontSize = 16;
 const columns = canvas.width / fontSize;
 const drops = [];
+let colores = ["#c77dff","#ff4d6d","#00f5d4","#ffd60a","#ff85a1","#80ffdb"];
+let colorActual = "#c77dff";
+
 for (let x = 0; x < columns; x++) drops[x] = 1;
 
 function draw() {
   ctx.fillStyle = "rgba(0,0,0,0.08)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = "#c77dff";
+  ctx.fillStyle = colorActual;
   ctx.font = fontSize + "px monospace";
   for (let i = 0; i < drops.length; i++) {
     const text = letters.charAt(Math.floor(Math.random()*letters.length));
@@ -170,10 +174,10 @@ setInterval(draw,70);
 
 /* TEXTO */
 const mensaje = `
-Te encontraría en cualquier universo.
-En cualquier línea del tiempo.
-Porque mi destino...
-siempre eres tú.
+En cualquier universo.
+En cualquier tiempo.
+Si tuviera que elegir de nuevo...
+Siempre serías tú.
 `;
 
 let i=0;
@@ -186,20 +190,30 @@ function escribir(){
 }
 escribir();
 
+/* CAMBIO DE COLOR */
+
+function cambiarColor(){
+  colorActual = colores[Math.floor(Math.random()*colores.length)];
+  document.body.style.background=`linear-gradient(45deg,${colorActual},black)`;
+  document.getElementById("card").style.boxShadow=`0 0 40px ${colorActual}`;
+}
+
 /* BOTONES */
 
-function modoAmor(){
+function modoViaje(){
   document.getElementById("imagenViaje").style.display="block";
   document.getElementById("imagenPropuesta").style.display="none";
+  cambiarColor();
   musica.play();
 }
 
-function mostrarPropuesta(){
+function aceptar(){
   document.getElementById("imagenPropuesta").style.display="block";
   document.getElementById("imagenViaje").style.display="none";
+  cambiarColor();
   musica.play();
   explosionCorazones();
-  mostrarMensajeGigante();
+  mostrarMensaje();
 }
 
 function huir(){
@@ -211,7 +225,7 @@ function huir(){
 /* EFECTOS */
 
 function explosionCorazones(){
-  for(let i=0;i<30;i++){
+  for(let i=0;i<25;i++){
     const corazon=document.createElement("div");
     corazon.classList.add("corazon");
     corazon.innerHTML="❤";
@@ -223,10 +237,10 @@ function explosionCorazones(){
   }
 }
 
-function mostrarMensajeGigante(){
+function mostrarMensaje(){
   const mensaje=document.createElement("div");
-  mensaje.classList.add("mensajeGigante");
-  mensaje.innerHTML=;
+  mensaje.classList.add("mensajeRomantico");
+  mensaje.innerHTML="💖 Gracias por elegirme 💖";
   document.body.appendChild(mensaje);
 }
 
