@@ -36,63 +36,11 @@ canvas {
   background: linear-gradient(45deg,#ffadad,#ffd6a5,#caffbf,#bdb2ff,#ffc6ff);
   box-shadow: 0 0 50px pink;
 }
-/* ===== CONTADOR ===== */
-.contador-box {
-  margin-top: 40px;
-  text-align: center;
-  font-size: 1.3rem;
-  color: #d8b4fe;
-}
-
-.contador {
-  font-size: 1.8rem;
-  margin-top: 10px;
-  font-weight: bold;
-  letter-spacing: 2px;
-}
-
-/* ===== EFECTO COLORES PASTEL AL ACTIVAR ===== */
-.pastel-animado {
-  animation: pastelFlash 2s infinite alternate;
-}
-
-@keyframes pastelFlash {
-  0% { color: #f9a8d4; }
-  20% { color: #c4b5fd; }
-  40% { color: #a5f3fc; }
-  60% { color: #fcd34d; }
-  80% { color: #fbcfe8; }
-  100% { color: #ddd6fe; }
-}
-
-/* ===== BOTÓN ANIMADO ===== */
-#btnDestino {
-  padding: 12px 25px;
-  border-radius: 12px;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-  background: linear-gradient(45deg, #c084fc, #f9a8d4);
-  transition: 0.3s;
-}
-
-#btnDestino.activo {
-  animation: botonColor 3s infinite linear;
-}
-
-@keyframes botonColor {
-  0% { background: #f9a8d4; }
-  25% { background: #c4b5fd; }
-  50% { background: #a5f3fc; }
-  75% { background: #fcd34d; }
-  100% { background: #f9a8d4; }
-}
-
 
 #texto {
   font-size: 20px;
   line-height: 1.8;
-  min-height: 250px;
+  min-height: 260px;
   white-space: pre-wrap;
 }
 
@@ -134,7 +82,6 @@ button:hover {
 .hiddenImage {
   display: none;
   margin-top: 30px;
-  text-align: center;
 }
 
 .hiddenImage img {
@@ -148,4 +95,11 @@ button:hover {
   font-size: 16px;
   color: #e0aaff;
 }
+
+#mensajeFinal {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #ffd6ff;
+}
+
 
