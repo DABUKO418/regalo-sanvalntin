@@ -4,8 +4,7 @@
 <meta charset="UTF-8">
 <title>Nuestro Amor 💜</title>
 
-<!-- FUENTE AESTHETIC -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Montserrat:wght@300&display=swap" rel="stylesheet">
 
 <style>
 body{
@@ -15,116 +14,68 @@ body{
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(135deg,#f8a5c2,#d980fa,#a29bfe);
+  background:linear-gradient(135deg,#f6a5ff,#c084fc,#a855f7);
   overflow:hidden;
-  text-align:center;
   color:white;
+  text-align:center;
 }
 
-/* CONTENEDOR */
-.tree-container{
-  position:relative;
-  width:400px;
-  height:450px;
+/* SVG árbol */
+svg{
+  width:420px;
+  height:500px;
 }
 
-/* TRONCO */
-.trunk{
-  position:absolute;
-  bottom:0;
-  left:50%;
-  width:20px;
-  height:0;
-  background:#5c2a00;
-  transform:translateX(-50%);
-  border-radius:10px;
-  animation:growTrunk 2s forwards ease-out;
+/* Dibujo del árbol */
+path{
+  fill:none;
+  stroke:#4b1d00;
+  stroke-width:5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:1000;
+  stroke-dashoffset:1000;
+  animation:drawTree 4s ease forwards;
 }
 
-@keyframes growTrunk{
-  to{ height:230px; }
-}
-
-/* RAMAS */
-.branch{
-  position:absolute;
-  width:160px;
-  height:90px;
-  border-bottom:5px solid #5c2a00;
-  border-radius:50%;
-  transform:scaleX(0);
-  animation:growBranch 1.5s forwards ease-out;
-}
-
-.branch.left{
-  left:50%;
-  transform-origin:right;
-}
-
-.branch.right{
-  left:50%;
-  transform-origin:left;
-}
-
-@keyframes growBranch{
-  to{ transform:scaleX(1); }
-}
-
-/* POSICIONES RAMAS */
-.b1{ bottom:200px; transform:translateX(-100%) rotate(-25deg) scaleX(0); animation-delay:2s;}
-.b2{ bottom:200px; transform:rotate(25deg) scaleX(0); animation-delay:2.3s;}
-.b3{ bottom:170px; transform:translateX(-100%) rotate(-15deg) scaleX(0); animation-delay:2.6s;}
-.b4{ bottom:170px; transform:rotate(15deg) scaleX(0); animation-delay:2.9s;}
-.b5{ bottom:140px; transform:translateX(-100%) rotate(-30deg) scaleX(0); animation-delay:3.2s;}
-.b6{ bottom:140px; transform:rotate(30deg) scaleX(0); animation-delay:3.5s;}
-
-/* CORAZONES */
-.heart{
-  position:absolute;
-  width:18px;
-  height:18px;
-  background:#ff3b7a;
-  transform:rotate(-45deg) scale(0);
-  opacity:0;
-  animation:popHeart 0.6s forwards ease-out;
-}
-
-.heart::before,
-.heart::after{
-  content:"";
-  position:absolute;
-  width:18px;
-  height:18px;
-  background:#ff3b7a;
-  border-radius:50%;
-}
-
-.heart::before{ top:-9px; left:0;}
-.heart::after{ left:9px; top:0;}
-
-@keyframes popHeart{
+@keyframes drawTree{
   to{
-    opacity:1;
-    transform:rotate(-45deg) scale(1);
+    stroke-dashoffset:0;
   }
 }
 
-/* TEXTO */
+/* Corazones */
+.heart{
+  fill:#ff4d88;
+  opacity:0;
+  transform-origin:center;
+  animation:float 4s ease-in-out infinite alternate;
+}
+
+@keyframes appear{
+  to{ opacity:1; }
+}
+
+@keyframes float{
+  from{ transform:translateY(0px); }
+  to{ transform:translateY(-8px); }
+}
+
 h1{
-  font-family:'Playfair Display', serif;
-  font-size:48px;
-  margin-top:20px;
+  font-family:'Cormorant Garamond', serif;
+  font-size:52px;
+  margin:10px 0 0;
 }
 
 p{
-  font-family:'Poppins', sans-serif;
+  font-family:'Montserrat', sans-serif;
   font-size:16px;
   opacity:0.9;
 }
 
 #contador{
   margin-top:15px;
-  font-family:'Poppins', sans-serif;
+  font-family:'Montserrat', sans-serif;
   font-size:18px;
 }
 </style>
@@ -132,37 +83,52 @@ p{
 
 <body>
 
-<div class="tree-container">
+<svg viewBox="0 0 400 500">
 
-  <div class="trunk"></div>
+  <!-- TRONCO -->
+  <path d="M200 480 L200 300" />
 
-  <!-- RAMAS -->
-  <div class="branch left b1"></div>
-  <div class="branch right b2"></div>
-  <div class="branch left b3"></div>
-  <div class="branch right b4"></div>
-  <div class="branch left b5"></div>
-  <div class="branch right b6"></div>
+  <!-- RAMAS IZQUIERDA -->
+  <path d="M200 350 C160 330, 140 300, 130 270" />
+  <path d="M200 330 C150 310, 120 270, 110 240" />
+  <path d="M200 310 C170 290, 150 250, 145 220" />
 
-  <!-- MUCHOS CORAZONES -->
-  <script>
-    for(let i=0;i<40;i++){
-      const heart=document.createElement("div");
-      heart.className="heart";
-      heart.style.left=Math.random()*350+"px";
-      heart.style.top=Math.random()*200+"px";
-      heart.style.animationDelay=(4+Math.random()*2)+"s";
-      document.querySelector(".tree-container").appendChild(heart);
-    }
-  </script>
+  <!-- RAMAS DERECHA -->
+  <path d="M200 350 C240 330, 260 300, 270 270" />
+  <path d="M200 330 C250 310, 280 270, 290 240" />
+  <path d="M200 310 C230 290, 250 250, 255 220" />
 
-</div>
+  <!-- CORAZONES -->
+  <g id="hearts"></g>
+
+</svg>
 
 <h1>Nuestro Amor 💜</h1>
 <p>Eres lo mejor que me ha pasado.</p>
 <div id="contador"></div>
 
 <script>
+/* Generar corazones organizados */
+const svg = document.querySelector("svg");
+const heartGroup = document.getElementById("hearts");
+
+function createHeart(x,y,delay){
+  const heart = document.createElementNS("http://www.w3.org/2000/svg","path");
+  heart.setAttribute("d","M0,-6 C-6,-12 -18,-2 0,12 C18,-2 6,-12 0,-6 Z");
+  heart.setAttribute("transform",`translate(${x},${y}) scale(1.2)`);
+  heart.setAttribute("class","heart");
+  heart.style.animationDelay = delay + "s";
+  heart.style.animation += ", appear 1s forwards";
+  heartGroup.appendChild(heart);
+}
+
+for(let i=0;i<25;i++){
+  let x = 200 + (Math.random()*160 - 80);
+  let y = 180 + Math.random()*80;
+  createHeart(x,y,4 + Math.random()*2);
+}
+
+/* CONTADOR */
 const fechaInicio = new Date("2022-08-22T00:00:00");
 
 function calcularTiempo(){
