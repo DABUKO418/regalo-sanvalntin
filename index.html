@@ -10,7 +10,6 @@ body {
   margin: 0;
   background: black;
   overflow-x: hidden;
-  overflow-y: auto;
   font-family: 'Courier New', monospace;
   color: #c77dff;
   display: flex;
@@ -48,17 +47,12 @@ canvas {
 }
 
 .cursor {
-  display: inline-block;
-  font-weight: bold;
   animation: blink 1s infinite;
 }
-
-@keyframes blink {
-  50% { opacity: 0; }
-}
+@keyframes blink { 50% {opacity:0;} }
 
 button {
-  margin-top: 20px;
+  margin-top: 15px;
   padding: 12px 25px;
   border: none;
   border-radius: 30px;
@@ -68,46 +62,50 @@ button {
   cursor: pointer;
   box-shadow: 0 0 15px #c77dff;
   transition: 0.3s;
+  position: relative;
 }
 
-button:hover {
-  transform: scale(1.1);
-}
+button:hover { transform: scale(1.1); }
 
-.contador {
-  margin-top: 30px;
-  font-size: 22px;
-  letter-spacing: 2px;
-  animation: flotar 3s ease-in-out infinite;
-}
-
-@keyframes flotar {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0px); }
+#noBtn {
+  position: absolute;
 }
 
 .hiddenImage {
   display: none;
-  margin-top: 30px;
+  margin-top: 25px;
 }
 
 .hiddenImage img {
   width: 300px;
   border-radius: 15px;
-  box-shadow: 0 0 20px #d946ef;
+  box-shadow: 0 0 25px #ff4d6d;
+}
+
+.mensajeGigante {
+  position: fixed;
+  top: 40%;
+  font-size: 60px;
+  color: #ff4d6d;
+  text-shadow: 0 0 20px #ff4d6d;
+  animation: zoom 1s ease forwards;
+  z-index: 5;
+}
+
+@keyframes zoom {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
 }
 
 .corazon {
   position: fixed;
   color: #ff4d6d;
   font-size: 20px;
-  animation: flotarCorazon 4s linear infinite;
+  animation: flotar 4s linear infinite;
 }
-
-@keyframes flotarCorazon {
-  0% { transform: translateY(100vh); opacity: 1; }
-  100% { transform: translateY(-10vh); opacity: 0; }
+@keyframes flotar {
+  0% { transform: translateY(100vh); opacity:1;}
+  100% { transform: translateY(-10vh); opacity:0;}
 }
 </style>
 </head>
@@ -119,22 +117,25 @@ button:hover {
 <div class="card" id="card">
   <div id="texto"></div><span class="cursor">_</span>
 
-  <div class="contador" id="contador"></div>
+  <br><br>
 
-  <button onclick="modoAmor()">¿Lista para viajar en el tiempo conmigo? 💜</button>
+  <button onclick="modoAmor()">Viajar en el tiempo 💜</button>
   <br>
-  <button onclick="sanValentin()">¿Quieres ser mi San Valentín? 💘</button>
+  <button onclick="mostrarPropuesta()">Sí 💘</button>
+  <button id="noBtn" onmouseover="huir()">No 😈</button>
 
-  <div class="hiddenImage" id="imagen1">
+  <div class="hiddenImage" id="imagenViaje">
     <img src="https://i.postimg.cc/jq107Nyw/Whats-App-Image-2026-02-14-at-11-43-21.jpg">
   </div>
 
-  <div class="hiddenImage" id="imagen2">
-    <img src="https://i.postimg.cc/3r1XzY8J/romantica.jpg">
+  <div class="hiddenImage" id="imagenPropuesta">
+    <!-- 🔥 AQUI PONES TU IMAGEN DE PROPUESTA -->
+    <img src="AQUI_TU_IMAGEN_DE_PROPUESTA.jpg">
   </div>
 </div>
 
 <audio id="musica" loop>
+  <!-- 🎵 CAMBIA POR TU MP3 -->
   <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
 </audio>
 
@@ -150,107 +151,90 @@ const letters = "01❤JANIERALLISON";
 const fontSize = 16;
 const columns = canvas.width / fontSize;
 const drops = [];
-let colores = ["#c77dff","#ff4d6d","#00f5d4","#ffd60a","#ff85a1","#80ffdb"];
-let colorActual = "#c77dff";
-
 for (let x = 0; x < columns; x++) drops[x] = 1;
 
 function draw() {
   ctx.fillStyle = "rgba(0,0,0,0.08)";
   ctx.fillRect(0,0,canvas.width,canvas.height);
-  ctx.fillStyle = colorActual;
+  ctx.fillStyle = "#c77dff";
   ctx.font = fontSize + "px monospace";
   for (let i = 0; i < drops.length; i++) {
-    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+    const text = letters.charAt(Math.floor(Math.random()*letters.length));
     ctx.fillText(text, i*fontSize, drops[i]*fontSize);
-    if (drops[i]*fontSize > canvas.height && Math.random() > 0.985)
-      drops[i] = 0;
+    if (drops[i]*fontSize > canvas.height && Math.random()>0.985)
+      drops[i]=0;
     drops[i]++;
   }
 }
-setInterval(draw, 70);
+setInterval(draw,70);
 
 /* TEXTO */
 const mensaje = `
-Te encontraría. En cualquier tiempo. En cualquier lugar.
-Si tuviera que atravesar siglos... lo haría por ti.
-
-Porque no importa la época,
-mi corazón siempre sabrá encontrarte.
+Te encontraría en cualquier universo.
+En cualquier línea del tiempo.
+Porque mi destino...
+siempre eres tú.
 `;
 
-let i = 0;
-function escribir() {
-  if (i < mensaje.length) {
-    document.getElementById("texto").innerHTML += mensaje.charAt(i);
+let i=0;
+function escribir(){
+  if(i<mensaje.length){
+    document.getElementById("texto").innerHTML+=mensaje.charAt(i);
     i++;
-    setTimeout(escribir, 80);
+    setTimeout(escribir,70);
   }
 }
 escribir();
 
-/* CONTADOR */
-const fechaInicio = new Date("2022-08-01T00:00:00");
-
-function actualizarContador() {
-  const ahora = new Date();
-  const diferencia = ahora - fechaInicio;
-  const segundos = Math.floor(diferencia/1000)%60;
-  const minutos = Math.floor(diferencia/(1000*60))%60;
-  const horas = Math.floor(diferencia/(1000*60*60))%24;
-  const diasTotales = Math.floor(diferencia/(1000*60*60*24));
-  const años = Math.floor(diasTotales/365);
-  const dias = diasTotales%365;
-
-  document.getElementById("contador").innerHTML =
-    `${años} años • ${dias} días • ${horas}h ${minutos}m ${segundos}s`;
-}
-setInterval(actualizarContador,1000);
-actualizarContador();
-
 /* BOTONES */
 
-function modoAmor() {
-  document.getElementById("imagen1").style.display="block";
-  document.getElementById("imagen2").style.display="none";
-  cambiarColor();
+function modoAmor(){
+  document.getElementById("imagenViaje").style.display="block";
+  document.getElementById("imagenPropuesta").style.display="none";
   musica.play();
 }
 
-function sanValentin() {
-  document.getElementById("imagen2").style.display="block";
-  document.getElementById("imagen1").style.display="none";
-  cambiarColor();
-  crearCorazones();
+function mostrarPropuesta(){
+  document.getElementById("imagenPropuesta").style.display="block";
+  document.getElementById("imagenViaje").style.display="none";
   musica.play();
+  explosionCorazones();
+  mostrarMensajeGigante();
 }
 
-function cambiarColor(){
-  colorActual = colores[Math.floor(Math.random()*colores.length)];
-  document.body.style.background=`linear-gradient(45deg,${colorActual},black)`;
-  document.getElementById("card").style.boxShadow=`0 0 40px ${colorActual}`;
-  document.getElementById("contador").style.color=colorActual;
+function huir(){
+  const btn=document.getElementById("noBtn");
+  btn.style.top=Math.random()*80+"vh";
+  btn.style.left=Math.random()*80+"vw";
 }
 
-/* CORAZONES */
+/* EFECTOS */
 
-function crearCorazones(){
-  for(let i=0;i<20;i++){
+function explosionCorazones(){
+  for(let i=0;i<30;i++){
     const corazon=document.createElement("div");
     corazon.classList.add("corazon");
     corazon.innerHTML="❤";
     corazon.style.left=Math.random()*100+"vw";
-    corazon.style.fontSize=(Math.random()*30+15)+"px";
+    corazon.style.fontSize=(Math.random()*40+20)+"px";
     corazon.style.animationDuration=(Math.random()*3+2)+"s";
     document.body.appendChild(corazon);
     setTimeout(()=>{corazon.remove();},4000);
   }
 }
 
+function mostrarMensajeGigante(){
+  const mensaje=document.createElement("div");
+  mensaje.classList.add("mensajeGigante");
+  mensaje.innerHTML="💘 SABÍA QUE DIRÍAS QUE SÍ 💘";
+  document.body.appendChild(mensaje);
+}
+
 </script>
 
 </body>
 </html>
+
 
 
 
