@@ -1,52 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Destino Enlazado 💜</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Janier ❤️ Allison</title>
 
-  <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- FONDO HACKER -->
-  <canvas id="matrix"></canvas>
+<canvas id="matrix"></canvas>
 
-  <div class="contenedor">
+<div class="card" id="card">
 
-    <!-- TEXTO TIPO MÁQUINA -->
-    <div class="terminal">
-      <p id="textoMaquina"></p>
-      <span class="cursor">|</span>
-    </div>
+  <div id="texto"></div>
+  <span class="cursor">_</span>
 
-    <!-- CONTADOR -->
-    <div class="contador-box">
-      <div id="contador" class="contador"></div>
-    </div>
+  <div id="contador"></div>
 
-    <!-- BOTONES -->
-    <div class="botones">
+  <button onclick="mostrarImagen()">¿Lista para viajar en el tiempo conmigo? 💜</button>
 
-      <button id="btnViaje" class="boton-img">
-        <img src="tu-imagen-1.png" alt="">
-        ¿Lista para viajar en el tiempo conmigo? 💜
-      </button>
+  <div id="mensajeFinal"></div>
 
-      <button id="btnDestino" class="boton-img">
-        <img src="tu-imagen-2.png" alt="">
-        Descubrir nuestro destino ✨
-      </button>
-
-    </div>
-
+  <div class="hiddenImage" id="imagen">
+    <img src="https://i.postimg.cc/jq107Nyw/Whats-App-Image-2026-02-14-at-11-43-21.jpg">
   </div>
 
-  <script src="script.js"></script>
+</div>
 
+<script src="script.js"></script>
 </body>
 </html>
+
 
 
 
