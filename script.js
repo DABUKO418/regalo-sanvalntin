@@ -58,4 +58,21 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 });
+const texto = `Eres mi hogar... y siempre lo serás.
+Aunque el tiempo nos separe, mi corazón siempre sabrá encontrarte.
+Porque donde tú estés... ahí está mi eternidad. 💜`;
+
+let i = 0;
+const velocidad = 60;
+const textoElemento = document.getElementById("textoMaquina");
+
+function escribirTexto() {
+  if (i < texto.length) {
+    textoElemento.innerHTML += texto.charAt(i);
+    i++;
+    setTimeout(escribirTexto, velocidad);
+  }
+}
+
+escribirTexto();
 
