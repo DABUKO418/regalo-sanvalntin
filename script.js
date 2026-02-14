@@ -49,12 +49,16 @@ const mensaje = `
 "Te encontraría.
 En cualquier tiempo.
 En cualquier lugar.
-Aunque tuviera que atravesar siglos...
+Si tuviera que atravesar siglos...
+Lo haría por ti."
 
-Mi alma siempre sabría cómo volver a ti."
+Y si mi alma tuviera que elegir de nuevo,
+siempre elegiría tu mirada,
+tu risa,
+tu forma de abrazarme como si el mundo se detuviera.
 
-Porque no importa el destino,
-no importa la época,
+Porque no importa la época,
+no importa el destino,
 mi corazón siempre sabrá encontrarte.
 `;
 
