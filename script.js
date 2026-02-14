@@ -1,17 +1,10 @@
-const container = document.querySelector('.hearts-container');
-
-function createHeart() {
-    for (let i = 0; i < 50; i++) {
-        const heart = document.createElement('div');
-        heart.classList.add('heart');
-        
-        // Posiciones aleatorias para formar la copa del árbol
-        heart.style.left = Math.random() * 200 + 'px';
-        heart.style.top = Math.random() * 150 + 'px';
-        heart.style.animationDelay = Math.random() * 2 + 's';
-        
-        container.appendChild(heart);
-    }
+@keyframes latido {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
 }
 
-window.onload = createHeart;
+.card {
+  animation: latido 3s infinite;
+}
+
