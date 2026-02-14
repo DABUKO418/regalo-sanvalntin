@@ -1,352 +1,152 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <style>
-    body {
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: #1a1a1a;
-      font-family: 'Courier New', monospace;
-      overflow: hidden;
-      perspective: 1000px;
-    }
-    
-    .container {
-      text-align: center;
-      position: relative;
-      transform-style: preserve-3d;
-    }
-    
-    .heart {
-      position: absolute;
-      animation: floatHeart 4s ease-in-out infinite;
-      opacity: 0;
-      font-size: 24px;
-      color: #ff4d4d;
-      text-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
-    }
-    
-    .code-block {
-      background: #2d2d2d;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
-      color: #fff;
-      max-width: 600px;
-      margin: 20px;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeIn 1s ease forwards;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .code-block::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        45deg,
-        transparent,
-        rgba(255, 77, 77, 0.1),
-        transparent
-      );
-      transform: rotate(45deg);
-      animation: shine 3s infinite;
-    }
-    
-    .line {
-      margin: 10px 0;
-      opacity: 0;
-      transform: translateX(-20px);
-      position: relative;
-    }
-    
-    .keyword {
-      color: #ff69b4;
-      text-shadow: 0 0 5px rgba(255, 105, 180, 0.3);
-    }
-    
-    .string {
-      color: #98c379;
-      text-shadow: 0 0 5px rgba(152, 195, 121, 0.3);
-    }
-    
-    .comment {
-      color: #7f848e;
-    }
-    
-    .function {
-      color: #61afef;
-      text-shadow: 0 0 5px rgba(97, 175, 239, 0.3);
-    }
-    
-    .number {
-      color: #d19a66;
-      text-shadow: 0 0 5px rgba(209, 154, 102, 0.3);
-    }
-    
-    @keyframes floatHeart {
-      0% {
-        transform: translate(0, 0) rotate(0deg) scale(1);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-        transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1.2);
-      }
-      80% {
-        opacity: 1;
-        transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(0.8);
-      }
-      100% {
-        transform: translate(var(--tx), -100vh) rotate(var(--rot)) scale(0.5);
-        opacity: 0;
-      }
-    }
-    
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    @keyframes typeIn {
-      from {
-        opacity: 0;
-        transform: translateX(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-    
-    @keyframes shine {
-      0% {
-        transform: translateX(-100%) rotate(45deg);
-      }
-      100% {
-        transform: translateX(100%) rotate(45deg);
-      }
-    }
-    
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
-      }
-      50% {
-        transform: scale(1.05);
-        box-shadow: 0 0 30px rgba(255, 77, 77, 0.5);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
-      }
-    }
-    
-    .click-me {
-      background: linear-gradient(45deg, #ff4d4d, #ff69b4);
-      color: white;
-      border: none;
-      padding: 15px 30px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-family: 'Courier New', monospace;
-      font-size: 18px;
-      margin-top: 20px;
-      transition: all 0.3s;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      animation: pulse 2s infinite;
-    }
-    
-    .click-me:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 30px rgba(255, 77, 77, 0.5);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Janier ❤️ Allison</title>
 
-    .matrix-rain {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
+<style>
+body {
+  margin: 0;
+  background: black;
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+  color: #c77dff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-    .output-message {
-      background: rgba(45, 45, 45, 0.9);
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 20px;
-      opacity: 0;
-      transform: scale(0.8);
-      transition: all 0.5s;
-    }
+/* Fondo canvas */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
 
-    .output-message.show {
-      opacity: 1;
-      transform: scale(1);
-    }
+/* Caja central */
+.card {
+  position: relative;
+  z-index: 2;
+  background: rgba(20, 0, 40, 0.85);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #a855f7;
+  text-align: center;
+  max-width: 600px;
+}
 
-    .particle {
-      position: absolute;
-      pointer-events: none;
-      animation: particle 1s linear forwards;
-    }
+.card h1 {
+  color: #e0aaff;
+  font-size: 22px;
+  line-height: 1.6;
+}
 
-    @keyframes particle {
-      0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translate(var(--tx), var(--ty)) scale(0);
-        opacity: 0;
-      }
-    }
-  </style>
+button {
+  margin-top: 20px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 30px;
+  background: linear-gradient(45deg, #a855f7, #d946ef);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 0 15px #c77dff;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+/* Imagen oculta */
+.hiddenImage {
+  display: none;
+  margin-top: 20px;
+}
+
+.hiddenImage img {
+  width: 250px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #d946ef;
+}
+</style>
 </head>
+
 <body>
-  <canvas class="matrix-rain"></canvas>
-  <div class="container">
-    <div class="code-block">
-      <div class="line"><span class="keyword">class</span> <span class="function">ValentineMessage</span> {</div>
-      <div class="line">  <span class="keyword">constructor</span>() {</div>
-      <div class="line">    <span class="keyword">this</span>.love = <span class="string">"∞"</span>;</div>
-      <div class="line">    <span class="keyword">this</span>.heart = <span class="keyword">new</span> <span class="function">Promise</span>((resolve) => {</div>
-      <div class="line">      resolve(<span class="string">"forever"</span>);</div>
-      <div class="line">    });</div>
-      <div class="line">  }</div>
-      <div class="line">  </div>
-      <div class="line">  <span class="comment">// You've stolen the key to my heart.encode()</span></div>
-      <div class="line">  <span class="keyword">async</span> <span class="function">expressLove</span>() {</div>
-      <div class="line">    <span class="keyword">while</span>(<span class="keyword">true</span>) {</div>
-      <div class="line">      <span class="keyword">await</span> <span class="keyword">this</span>.heart;</div>
-      <div class="line">      <span class="keyword">return</span> <span class="string">"Will you be my Valentine? 💝"</span>;</div>
-      <div class="line">    }</div>
-      <div class="line">  }</div>
-      <div class="line">}</div>
-    </div>
-    <button class="click-me">Execute Love.js ❤️</button>
-    <div class="output-message"></div>
+
+<canvas id="matrix"></canvas>
+
+<div class="card" id="card">
+  <h1>
+    class AmorEterno { <br><br>
+    constructor() { <br>
+    this.janier = "❤️"; <br>
+    this.allison = "❤️"; <br>
+    this.promesa = "Para siempre"; <br>
+    } <br><br>
+    async declararAmor() { <br>
+    return "Janier ❤️ Allison<br><br>
+    Eres mi código favorito,<br>
+    mi bug más hermoso,<br>
+    y mi sistema operativo del corazón 💜"; <br>
+    } <br>
+    }
+  </h1>
+
+  <button onclick="mostrarImagen()">Ver nuestro destino 💜</button>
+
+  <div class="hiddenImage" id="imagen">
+    <img src="https://i.postimg.cc/jq107Nyw/Whats-App-Image-2026-02-14-at-11-43-21.jpg" alt="Imagen romántica">
   </div>
+</div>
 
-  <script>
-    // Matrix rain effect
-    const canvas = document.querySelector('.matrix-rain');
-    const ctx = canvas.getContext('2d');
-    
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-    
-    const chars = '❤️💕💝LOVE1234567890';
-    const drops = [];
-    const fontSize = 16;
-    const columns = width / fontSize;
-    
-    for(let i = 0; i < columns; i++) {
-      drops[i] = 1;
-    }
-    
-    function drawMatrix() {
-      ctx.fillStyle = 'rgba(26, 26, 26, 0.05)';
-      ctx.fillRect(0, 0, width, height);
-      
-      ctx.fillStyle = '#ff4d4d';
-      ctx.font = fontSize + 'px monospace';
-      
-      for(let i = 0; i < drops.length; i++) {
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        
-        if(drops[i] * fontSize > height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
+<script>
+// MATRIX MORADO
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.innerHTML = ['❤️', '💝', '💕'][Math.floor(Math.random() * 3)];
-      heart.style.setProperty('--tx', `${Math.random() * 400 - 200}px`);
-      heart.style.setProperty('--ty', `${Math.random() * -300}px`);
-      heart.style.setProperty('--rot', `${Math.random() * 360}deg`);
-      heart.style.left = `${Math.random() * window.innerWidth}px`;
-      heart.style.bottom = '0';
-      document.body.appendChild(heart);
-      
-      setTimeout(() => {
-        heart.remove();
-      }, 4000);
-    }
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
 
-    function createParticle(x, y) {
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      particle.innerHTML = ['❤️', '✨', '💝'][Math.floor(Math.random() * 3)];
-      particle.style.left = x + 'px';
-      particle.style.top = y + 'px';
-      particle.style.setProperty('--tx', `${Math.random() * 200 - 100}px`);
-      particle.style.setProperty('--ty', `${Math.random() * 200 - 100}px`);
-      document.body.appendChild(particle);
-      
-      setTimeout(() => particle.remove(), 1000);
-    }
+const letters = "01❤JANIERALLISON";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
 
-    const lines = document.querySelectorAll('.line');
-    lines.forEach((line, index) => {
-      line.style.animation = `typeIn 0.5s ${index * 0.1}s forwards`;
-    });
+const drops = [];
 
-    let heartInterval;
-    let matrixInterval;
-    const button = document.querySelector('.click-me');
-    const outputMessage = document.querySelector('.output-message');
-    
-    button.addEventListener('click', (e) => {
-      if (!heartInterval) {
-        // Create particles on button click
-        for(let i = 0; i < 20; i++) {
-          createParticle(e.clientX, e.clientY);
-        }
-        
-        heartInterval = setInterval(createHeart, 200);
-        matrixInterval = setInterval(drawMatrix, 50);
-        button.textContent = 'Stop Love.js ❤️';
-        
-        outputMessage.innerHTML = `
-          <span class="keyword">console</span>.log(<span class="string">"Loading love.exe..."</span>)<br>
-          <span class="keyword">await</span> heart.connect()<br>
-          <span class="string">"💝 Will you be my Valentine? 💝"</span>
-        `;
-        outputMessage.classList.add('show');
-      } else {
-        clearInterval(heartInterval);
-        clearInterval(matrixInterval);
-        heartInterval = null;
-        matrixInterval = null;
-        button.textContent = 'Execute Love.js ❤️';
-        outputMessage.classList.remove('show');
-      }
-    });
+for (let x = 0; x < columns; x++) {
+  drops[x] = 1;
+}
 
-    // Handle window resize
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
-  </script>
+function draw() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#c77dff";
+  ctx.font = fontSize + "px monospace";
+
+  for (let i = 0; i < drops.length; i++) {
+    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+      drops[i] = 0;
+
+    drops[i]++;
+  }
+}
+
+setInterval(draw, 35);
+
+// Mostrar imagen
+function mostrarImagen() {
+  document.getElementById("imagen").style.display = "block";
+}
+</script>
+
 </body>
 </html>
+
