@@ -5,93 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Janier ❤️ Allison</title>
 
-<style>
-body {
-  margin: 0;
-  background: black;
-  overflow-x: hidden;
-  overflow-y: auto;
-  font-family: 'Courier New', monospace;
-  color: #c77dff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-}
-
-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 0;
-}
-
-.card {
-  position: relative;
-  z-index: 2;
-  background: rgba(20, 0, 40, 0.85);
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #a855f7;
-  text-align: center;
-  max-width: 700px;
-  margin-top: 100px;
-  transition: 0.6s;
-}
-
-.card.colorCambio {
-  background: linear-gradient(45deg,#ffadad,#ffd6a5,#caffbf,#bdb2ff,#ffc6ff);
-  box-shadow: 0 0 50px pink;
-}
-
-#texto {
-  font-size: 20px;
-  line-height: 1.8;
-  min-height: 250px;
-  white-space: pre-wrap;
-}
-
-.cursor {
-  display: inline-block;
-  font-weight: bold;
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-button {
-  margin-top: 25px;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 30px;
-  background: linear-gradient(45deg, #a855f7, #d946ef);
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0 0 15px #c77dff;
-  transition: 0.3s;
-}
-
-button:hover {
-  transform: scale(1.1);
-}
-
-.hiddenImage {
-  display: none;
-  margin-top: 30px;
-  text-align: center;
-}
-
-.hiddenImage img {
-  width: 300px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #d946ef;
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -99,102 +13,24 @@ button:hover {
 <canvas id="matrix"></canvas>
 
 <div class="card" id="card">
-  <div id="texto"></div><span class="cursor">_</span>
+
+  <div id="texto"></div>
+  <span class="cursor">_</span>
+
+  <div id="contador"></div>
 
   <button onclick="mostrarImagen()">¿Lista para viajar en el tiempo conmigo? 💜</button>
 
   <div class="hiddenImage" id="imagen">
     <img src="https://i.postimg.cc/jq107Nyw/Whats-App-Image-2026-02-14-at-11-43-21.jpg">
   </div>
+
 </div>
 
-<script>
-
-/* ================= MATRIX ================= */
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
-
-const letters = "01❤JANIERALLISON";
-const fontSize = 16;
-const columns = canvas.width / fontSize;
-const drops = [];
-
-let coloresPastel = ["#ffadad","#ffd6a5","#fdffb6","#caffbf","#9bf6ff","#bdb2ff","#ffc6ff"];
-let modoFiesta = false;
-
-for (let x = 0; x < columns; x++) {
-  drops[x] = 1;
-}
-
-function draw() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  if(modoFiesta){
-    ctx.fillStyle = coloresPastel[Math.floor(Math.random()*coloresPastel.length)];
-  } else {
-    ctx.fillStyle = "#c77dff";
-  }
-
-  ctx.font = fontSize + "px monospace";
-
-  for (let i = 0; i < drops.length; i++) {
-    const text = letters.charAt(Math.floor(Math.random() * letters.length));
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-    if (drops[i] * fontSize > canvas.height && Math.random() > 0.985)
-      drops[i] = 0;
-
-    drops[i]++;
-  }
-}
-
-setInterval(draw, 70);
-
-/* ================= TEXTO TIPO TERMINAL ================= */
-
-const mensaje = `
-"Te encontraría.
-En cualquier tiempo.
-En cualquier lugar.
-Si tuviera que atravesar siglos...
-Lo haría por ti."
-
-Y si mi alma tuviera que elegir de nuevo,
-siempre elegiría tu mirada,
-tu risa,
-tu forma de abrazarme como si el mundo se detuviera.
-
-Porque no importa la época,
-no importa el destino,
-mi corazón siempre sabrá encontrarte.
-`;
-
-let i = 0;
-function escribir() {
-  if (i < mensaje.length) {
-    document.getElementById("texto").innerHTML += mensaje.charAt(i);
-    i++;
-    setTimeout(escribir, 80); // 🔥 más lento
-  }
-}
-
-escribir();
-
-/* ================= BOTÓN ================= */
-
-function mostrarImagen() {
-  document.getElementById("imagen").style.display = "block";
-  document.getElementById("card").classList.add("colorCambio");
-  modoFiesta = true;
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
+
 
 
