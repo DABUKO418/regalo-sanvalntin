@@ -17,6 +17,7 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  transition: 0.8s;
 }
 
 canvas {
@@ -36,18 +37,13 @@ canvas {
   text-align: center;
   max-width: 700px;
   margin-top: 100px;
-  transition: 0.6s;
-}
-
-.card.colorCambio {
-  background: linear-gradient(45deg,#ffadad,#ffd6a5,#caffbf,#bdb2ff,#ffc6ff);
-  box-shadow: 0 0 50px pink;
+  transition: 0.8s;
 }
 
 #texto {
   font-size: 20px;
   line-height: 1.8;
-  min-height: 250px;
+  min-height: 200px;
   white-space: pre-wrap;
 }
 
@@ -58,9 +54,7 @@ canvas {
 }
 
 @keyframes blink {
-  0% { opacity: 1; }
   50% { opacity: 0; }
-  100% { opacity: 1; }
 }
 
 button {
@@ -80,16 +74,29 @@ button:hover {
   transform: scale(1.1);
 }
 
+.contador {
+  margin-top: 30px;
+  font-size: 22px;
+  letter-spacing: 2px;
+  animation: flotar 3s ease-in-out infinite;
+}
+
+@keyframes flotar {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
 .hiddenImage {
   display: none;
   margin-top: 30px;
-  text-align: center;
 }
 
 .hiddenImage img {
   width: 300px;
   border-radius: 15px;
   box-shadow: 0 0 20px #d946ef;
+  transition: 0.5s;
 }
 </style>
 </head>
@@ -101,7 +108,9 @@ button:hover {
 <div class="card" id="card">
   <div id="texto"></div><span class="cursor">_</span>
 
-  <button onclick="mostrarImagen()">¿Lista para viajar en el tiempo conmigo? 💜</button>
+  <div class="contador" id="contador"></div>
+
+  <button onclick="modoAmor()">¿Lista para viajar en el tiempo conmigo? 💜</button>
 
   <div class="hiddenImage" id="imagen">
     <img src="https://i.postimg.cc/jq107Nyw/Whats-App-Image-2026-02-14-at-11-43-21.jpg">
@@ -111,6 +120,7 @@ button:hover {
 <script>
 
 /* ================= MATRIX ================= */
+
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
 
@@ -122,8 +132,8 @@ const fontSize = 16;
 const columns = canvas.width / fontSize;
 const drops = [];
 
-let coloresPastel = ["#ffadad","#ffd6a5","#fdffb6","#caffbf","#9bf6ff","#bdb2ff","#ffc6ff"];
-let modoFiesta = false;
+let colores = ["#c77dff","#ff4d6d","#00f5d4","#ffd60a","#ff85a1","#80ffdb"];
+let colorActual = "#c77dff";
 
 for (let x = 0; x < columns; x++) {
   drops[x] = 1;
@@ -133,12 +143,7 @@ function draw() {
   ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  if(modoFiesta){
-    ctx.fillStyle = coloresPastel[Math.floor(Math.random()*coloresPastel.length)];
-  } else {
-    ctx.fillStyle = "#c77dff";
-  }
-
+  ctx.fillStyle = colorActual;
   ctx.font = fontSize + "px monospace";
 
   for (let i = 0; i < drops.length; i++) {
@@ -154,23 +159,14 @@ function draw() {
 
 setInterval(draw, 70);
 
-/* ================= TEXTO TIPO TERMINAL ================= */
+/* ================= TEXTO TERMINAL ================= */
 
 const mensaje = `
 "Te encontraría.
 En cualquier tiempo.
-En cualquier lugar.
-Si tuviera que atravesar siglos...
-Lo haría por ti."
+En cualquier lugar."
 
-Y si mi alma tuviera que elegir de nuevo,
-siempre elegiría tu mirada,
-tu risa,
-tu forma de abrazarme como si el mundo se detuviera.
-
-Porque no importa la época,
-no importa el destino,
-mi corazón siempre sabrá encontrarte.
+Mi corazón siempre sabrá encontrarte.
 `;
 
 let i = 0;
@@ -178,18 +174,53 @@ function escribir() {
   if (i < mensaje.length) {
     document.getElementById("texto").innerHTML += mensaje.charAt(i);
     i++;
-    setTimeout(escribir, 80); // 🔥 más lento
+    setTimeout(escribir, 80);
   }
 }
-
 escribir();
 
-/* ================= BOTÓN ================= */
+/* ================= CONTADOR REAL ================= */
 
-function mostrarImagen() {
+/* 🔥 CAMBIA ESTA FECHA A CUANDO EMPEZÓ TODO */
+const fechaInicio = new Date("2024-01-01T00:00:00");
+
+function actualizarContador() {
+  const ahora = new Date();
+  const diferencia = ahora - fechaInicio;
+
+  const segundos = Math.floor(diferencia / 1000) % 60;
+  const minutos = Math.floor(diferencia / (1000 * 60)) % 60;
+  const horas = Math.floor(diferencia / (1000 * 60 * 60)) % 24;
+  const diasTotales = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+
+  const años = Math.floor(diasTotales / 365);
+  const dias = diasTotales % 365;
+
+  document.getElementById("contador").innerHTML =
+    `${años} años • ${dias} días • ${horas}h ${minutos}m ${segundos}s`;
+}
+
+setInterval(actualizarContador, 1000);
+actualizarContador();
+
+/* ================= BOTÓN MODO AMOR ================= */
+
+function modoAmor() {
+
+  // Mostrar imagen
   document.getElementById("imagen").style.display = "block";
-  document.getElementById("card").classList.add("colorCambio");
-  modoFiesta = true;
+
+  // Cambiar color aleatorio
+  colorActual = colores[Math.floor(Math.random()*colores.length)];
+
+  // Cambiar fondo con patrón simple
+  document.body.style.background = 
+    `linear-gradient(45deg, ${colorActual}, black)`;
+
+  document.getElementById("card").style.boxShadow =
+    `0 0 40px ${colorActual}`;
+
+  document.getElementById("contador").style.color = colorActual;
 }
 
 </script>
