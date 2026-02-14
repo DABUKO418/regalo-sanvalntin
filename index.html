@@ -78,6 +78,13 @@ button:hover {
   margin-top: 30px;
   font-size: 22px;
   letter-spacing: 2px;
+  animation: flotar 3s ease-in-out infinite;
+}
+
+@keyframes flotar {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
 }
 
 .hiddenImage {
@@ -89,7 +96,18 @@ button:hover {
   width: 300px;
   border-radius: 15px;
   box-shadow: 0 0 20px #d946ef;
-  transition: 0.5s;
+}
+
+.corazon {
+  position: fixed;
+  color: #ff4d6d;
+  font-size: 20px;
+  animation: flotarCorazon 4s linear infinite;
+}
+
+@keyframes flotarCorazon {
+  0% { transform: translateY(100vh); opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
 }
 </style>
 </head>
@@ -104,33 +122,27 @@ button:hover {
   <div class="contador" id="contador"></div>
 
   <button onclick="modoAmor()">¿Lista para viajar en el tiempo conmigo? 💜</button>
-
+  <br>
   <button onclick="sanValentin()">¿Quieres ser mi San Valentín? 💘</button>
 
-  <div class="hiddenImage" id="imagen">
+  <div class="hiddenImage" id="imagen1">
     <img src="https://i.postimg.cc/jq107Nyw/Whats-App-Image-2026-02-14-at-11-43-21.jpg">
   </div>
 
   <div class="hiddenImage" id="imagen2">
-    <!-- 🔥 CAMBIA ESTA IMAGEN POR LA QUE QUIERAS -->
-    <img src="https://i.postimg.cc/3x3QzSGq/love-heart.png">
+    <img src="https://i.postimg.cc/3r1XzY8J/romantica.jpg">
   </div>
-
 </div>
 
-<!-- 🎵 MÚSICA -->
 <audio id="musica" loop>
-  <!-- 🔥 CAMBIA "cancion.mp3" POR EL NOMBRE DE TU ARCHIVO -->
-  <source src="cancion.mp3" type="audio/mpeg">
+  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-/* ================= MATRIX ================= */
-
+/* MATRIX */
 const canvas = document.getElementById("matrix");
 const ctx = canvas.getContext("2d");
-
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
@@ -138,41 +150,33 @@ const letters = "01❤JANIERALLISON";
 const fontSize = 16;
 const columns = canvas.width / fontSize;
 const drops = [];
-
 let colores = ["#c77dff","#ff4d6d","#00f5d4","#ffd60a","#ff85a1","#80ffdb"];
 let colorActual = "#c77dff";
 
-for (let x = 0; x < columns; x++) {
-  drops[x] = 1;
-}
+for (let x = 0; x < columns; x++) drops[x] = 1;
 
 function draw() {
-  ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+  ctx.fillStyle = "rgba(0,0,0,0.08)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
   ctx.fillStyle = colorActual;
   ctx.font = fontSize + "px monospace";
-
   for (let i = 0; i < drops.length; i++) {
     const text = letters.charAt(Math.floor(Math.random() * letters.length));
-    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-    if (drops[i] * fontSize > canvas.height && Math.random() > 0.985)
+    ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+    if (drops[i]*fontSize > canvas.height && Math.random() > 0.985)
       drops[i] = 0;
-
     drops[i]++;
   }
 }
-
 setInterval(draw, 70);
 
-/* ================= TEXTO TERMINAL ================= */
-
+/* TEXTO */
 const mensaje = `
-Te encontraría.
-En cualquier tiempo.
-En cualquier lugar.
-Porque mi corazón siempre sabrá encontrarte.
+Te encontraría. En cualquier tiempo. En cualquier lugar.
+Si tuviera que atravesar siglos... lo haría por ti.
+
+Porque no importa la época,
+mi corazón siempre sabrá encontrarte.
 `;
 
 let i = 0;
@@ -185,57 +189,69 @@ function escribir() {
 }
 escribir();
 
-/* ================= CONTADOR ================= */
-
+/* CONTADOR */
 const fechaInicio = new Date("2022-08-01T00:00:00");
 
 function actualizarContador() {
   const ahora = new Date();
   const diferencia = ahora - fechaInicio;
-
-  const segundos = Math.floor(diferencia / 1000) % 60;
-  const minutos = Math.floor(diferencia / (1000 * 60)) % 60;
-  const horas = Math.floor(diferencia / (1000 * 60 * 60)) % 24;
-  const diasTotales = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-
-  const años = Math.floor(diasTotales / 365);
-  const dias = diasTotales % 365;
+  const segundos = Math.floor(diferencia/1000)%60;
+  const minutos = Math.floor(diferencia/(1000*60))%60;
+  const horas = Math.floor(diferencia/(1000*60*60))%24;
+  const diasTotales = Math.floor(diferencia/(1000*60*60*24));
+  const años = Math.floor(diasTotales/365);
+  const dias = diasTotales%365;
 
   document.getElementById("contador").innerHTML =
     `${años} años • ${dias} días • ${horas}h ${minutos}m ${segundos}s`;
 }
-
-setInterval(actualizarContador, 1000);
+setInterval(actualizarContador,1000);
 actualizarContador();
 
-/* ================= BOTONES ================= */
+/* BOTONES */
 
-const musica = document.getElementById("musica");
-
-function reproducirMusica() {
+function modoAmor() {
+  document.getElementById("imagen1").style.display="block";
+  document.getElementById("imagen2").style.display="none";
+  cambiarColor();
   musica.play();
 }
 
-function modoAmor() {
-  reproducirMusica();
-  document.getElementById("imagen").style.display = "block";
-  colorActual = colores[Math.floor(Math.random()*colores.length)];
-  document.body.style.background =
-    `linear-gradient(45deg, ${colorActual}, black)`;
+function sanValentin() {
+  document.getElementById("imagen2").style.display="block";
+  document.getElementById("imagen1").style.display="none";
+  cambiarColor();
+  crearCorazones();
+  musica.play();
 }
 
-function sanValentin() {
-  reproducirMusica();
-  document.getElementById("imagen2").style.display = "block";
+function cambiarColor(){
   colorActual = colores[Math.floor(Math.random()*colores.length)];
-  document.body.style.background =
-    `linear-gradient(45deg, black, ${colorActual})`;
+  document.body.style.background=`linear-gradient(45deg,${colorActual},black)`;
+  document.getElementById("card").style.boxShadow=`0 0 40px ${colorActual}`;
+  document.getElementById("contador").style.color=colorActual;
+}
+
+/* CORAZONES */
+
+function crearCorazones(){
+  for(let i=0;i<20;i++){
+    const corazon=document.createElement("div");
+    corazon.classList.add("corazon");
+    corazon.innerHTML="❤";
+    corazon.style.left=Math.random()*100+"vw";
+    corazon.style.fontSize=(Math.random()*30+15)+"px";
+    corazon.style.animationDuration=(Math.random()*3+2)+"s";
+    document.body.appendChild(corazon);
+    setTimeout(()=>{corazon.remove();},4000);
+  }
 }
 
 </script>
 
 </body>
 </html>
+
 
 
 
