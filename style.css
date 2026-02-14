@@ -1,58 +1,10 @@
-body {
-    background: #fbafbc; /* Rosa romántico */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: 'Arial', sans-serif;
+@keyframes latido {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
 }
 
-.tree {
-    position: relative;
-    width: 200px;
-    height: 300px;
+.card {
+  animation: latido 3s infinite;
 }
 
-.trunk {
-    width: 20px;
-    height: 150px;
-    background: #8B4513; /* Color café del tronco */
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 5px;
-}
-
-.heart {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background: red;
-    transform: rotate(-45deg);
-    animation: bloom 2s ease-in-out forwards;
-}
-
-.heart::before, .heart::after {
-    content: '';
-    width: 15px;
-    height: 15px;
-    background: red;
-    border-radius: 50%;
-    position: absolute;
-}
-
-.heart::before { top: -8px; left: 0; }
-.heart::after { left: 8px; top: 0; }
-
-@keyframes bloom {
-    0% { transform: scale(0) rotate(-45deg); opacity: 0; }
-    100% { transform: scale(1) rotate(-45deg); opacity: 1; }
-}
-
-.message {
-    text-align: center;
-    margin-top: 20px;
-    color: white;
-}
