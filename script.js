@@ -1,78 +1,110 @@
-document.addEventListener("DOMContentLoaded", function () {
+/* ================= MATRIX ================= */
 
-  // ===== FECHA DE INICIO =====
-  const fechaInicio = new Date("2024-06-01T00:00:00");
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
 
-  // ===== CONTADOR =====
-  function actualizarContador() {
-    const ahora = new Date();
-    let diferencia = ahora - fechaInicio;
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
 
-    const segundosTotales = Math.floor(diferencia / 1000);
-    const horasTotales = Math.floor(segundosTotales / 3600);
-    const diasTotales = Math.floor(horasTotales / 24);
-    const meses = Math.floor(diasTotales / 30);
+const letters = "01❤JANIERALLISON";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = [];
 
-    const dias = diasTotales % 30;
-    const horas = horasTotales % 24;
-    const segundos = segundosTotales % 60;
+const coloresPastel = ["#ffadad","#ffd6a5","#fdffb6","#caffbf","#9bf6ff","#bdb2ff","#ffc6ff"];
+let modoFiesta = false;
 
-    const contador = document.getElementById("contador");
-    if (contador) {
-      contador.innerHTML =
-        `${meses} meses 💜 ${dias} días 💕 ${horas} horas ⏳ ${segundos} segundos`;
-    }
-  }
+for (let x = 0; x < columns; x++) {
+  drops[x] = 1;
+}
 
-  setInterval(actualizarContador, 1000);
-  actualizarContador();
+function draw() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // ===== BOTÓN DESTINO =====
-  const boton = document.getElementById("btnDestino");
-  let activado = false;
+  ctx.fillStyle = modoFiesta
+    ? coloresPastel[Math.floor(Math.random() * coloresPastel.length)]
+    : "#c77dff";
 
-  if (boton) {
-    boton.addEventListener("click", function () {
+  ctx.font = fontSize + "px monospace";
 
-      if (activado) return;
-      activado = true;
+  for (let i = 0; i < drops.length; i++) {
+    const text = letters[Math.floor(Math.random() * letters.length)];
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-      // Activar animación botón
-      boton.classList.add("activo");
+    if (drops[i] * fontSize > canvas.height && Math.random() > 0.985)
+      drops[i] = 0;
 
-      // Activar colores pastel en TODO el contenedor principal
-      const contenedor = document.querySelector(".contenedor");
-      if (contenedor) {
-        contenedor.classList.add("pastel-animado");
-      }
-
-      // Crear mensaje UNA SOLA VEZ
-      const mensaje = document.createElement("p");
-      mensaje.innerText = "Conexión establecida 💖 Destino enlazado para siempre...";
-      mensaje.style.marginTop = "25px";
-      mensaje.style.textAlign = "center";
-      mensaje.style.fontWeight = "bold";
-
-      document.body.appendChild(mensaje);
-    });
-  }
-
-});
-const texto = `Eres mi hogar... y siempre lo serás.
-Aunque el tiempo nos separe, mi corazón siempre sabrá encontrarte.
-Porque donde tú estés... ahí está mi eternidad. 💜`;
-
-let i = 0;
-const velocidad = 60;
-const textoElemento = document.getElementById("textoMaquina");
-
-function escribirTexto() {
-  if (i < texto.length) {
-    textoElemento.innerHTML += texto.charAt(i);
-    i++;
-    setTimeout(escribirTexto, velocidad);
+    drops[i]++;
   }
 }
 
-escribirTexto();
+setInterval(draw, 70);
+
+/* ================= TEXTO OUTLANDER ================= */
+
+const mensaje = `
+"Te encontraría.
+En cualquier tiempo.
+En cualquier lugar.
+Aunque tuviera que atravesar siglos...
+
+Mi alma siempre sabría cómo volver a ti."
+
+Porque no importa el destino,
+ni la época,
+mi corazón siempre sabrá encontrarte.
+`;
+
+let i = 0;
+
+function escribir() {
+  if (i < mensaje.length) {
+    document.getElementById("texto").innerHTML += mensaje.charAt(i);
+    i++;
+    setTimeout(escribir, 110);
+  }
+}
+
+escribir();
+
+/* ================= CONTADOR ================= */
+
+const fechaInicio = new Date("2024-05-10T00:00:00");
+
+function actualizarContador() {
+  const ahora = new Date();
+  const diferencia = ahora - fechaInicio;
+
+  const segundosTotales = Math.floor(diferencia / 1000);
+  const horasTotales = Math.floor(segundosTotales / 3600);
+  const diasTotales = Math.floor(horasTotales / 24);
+  const meses = Math.floor(diasTotales / 30);
+
+  const dias = diasTotales % 30;
+  const horas = horasTotales % 24;
+  const segundos = segundosTotales % 60;
+
+  document.getElementById("contador").innerHTML =
+    `${meses} meses 💜 ${dias} días 💕 ${horas} horas ⏳ ${segundos} segundos`;
+}
+
+setInterval(actualizarContador, 1000);
+actualizarContador();
+
+/* ================= BOTÓN ================= */
+
+let yaActivado = false;
+
+function mostrarImagen() {
+  if (yaActivado) return;
+  yaActivado = true;
+
+  document.getElementById("imagen").style.display = "block";
+  document.getElementById("card").classList.add("colorCambio");
+  modoFiesta = true;
+
+  document.getElementById("mensajeFinal").innerHTML =
+    "Conexión establecida 💖 Destino enlazado para siempre...";
+}
 
