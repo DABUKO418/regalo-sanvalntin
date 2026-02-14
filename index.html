@@ -2,27 +2,30 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Nuestro Amor ❤️</title>
+<title>Nuestro Amor 💜</title>
+
+<!-- FUENTE AESTHETIC -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300&display=swap" rel="stylesheet">
 
 <style>
 body{
   margin:0;
-  background:linear-gradient(to top,#f48ca3,#ffd6de);
   height:100vh;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  font-family:'Segoe UI',sans-serif;
-  color:white;
+  background:linear-gradient(135deg,#f8a5c2,#d980fa,#a29bfe);
   overflow:hidden;
   text-align:center;
+  color:white;
 }
 
+/* CONTENEDOR */
 .tree-container{
   position:relative;
-  width:300px;
-  height:400px;
+  width:400px;
+  height:450px;
 }
 
 /* TRONCO */
@@ -30,81 +33,74 @@ body{
   position:absolute;
   bottom:0;
   left:50%;
-  width:18px;
+  width:20px;
   height:0;
-  background:#5a2d0c;
+  background:#5c2a00;
   transform:translateX(-50%);
   border-radius:10px;
   animation:growTrunk 2s forwards ease-out;
 }
 
 @keyframes growTrunk{
-  to{ height:200px; }
+  to{ height:230px; }
 }
 
 /* RAMAS */
 .branch{
   position:absolute;
-  width:140px;
-  height:80px;
-  border-bottom:6px solid #5a2d0c;
+  width:160px;
+  height:90px;
+  border-bottom:5px solid #5c2a00;
   border-radius:50%;
   transform:scaleX(0);
   animation:growBranch 1.5s forwards ease-out;
 }
 
 .branch.left{
-  bottom:170px;
   left:50%;
   transform-origin:right;
-  transform:translateX(-100%) rotate(-25deg) scaleX(0);
-  animation-delay:2s;
 }
 
 .branch.right{
-  bottom:170px;
   left:50%;
   transform-origin:left;
-  transform:rotate(25deg) scaleX(0);
-  animation-delay:2.5s;
 }
 
 @keyframes growBranch{
-  to{
-    transform:rotate(0deg) scaleX(1);
-  }
+  to{ transform:scaleX(1); }
 }
+
+/* POSICIONES RAMAS */
+.b1{ bottom:200px; transform:translateX(-100%) rotate(-25deg) scaleX(0); animation-delay:2s;}
+.b2{ bottom:200px; transform:rotate(25deg) scaleX(0); animation-delay:2.3s;}
+.b3{ bottom:170px; transform:translateX(-100%) rotate(-15deg) scaleX(0); animation-delay:2.6s;}
+.b4{ bottom:170px; transform:rotate(15deg) scaleX(0); animation-delay:2.9s;}
+.b5{ bottom:140px; transform:translateX(-100%) rotate(-30deg) scaleX(0); animation-delay:3.2s;}
+.b6{ bottom:140px; transform:rotate(30deg) scaleX(0); animation-delay:3.5s;}
 
 /* CORAZONES */
 .heart{
   position:absolute;
-  width:22px;
-  height:22px;
-  background:#ff2e63;
+  width:18px;
+  height:18px;
+  background:#ff3b7a;
   transform:rotate(-45deg) scale(0);
   opacity:0;
-  animation:popHeart 0.8s forwards ease-out;
+  animation:popHeart 0.6s forwards ease-out;
 }
 
 .heart::before,
 .heart::after{
   content:"";
   position:absolute;
-  width:22px;
-  height:22px;
-  background:#ff2e63;
+  width:18px;
+  height:18px;
+  background:#ff3b7a;
   border-radius:50%;
 }
 
-.heart::before{
-  top:-11px;
-  left:0;
-}
-
-.heart::after{
-  left:11px;
-  top:0;
-}
+.heart::before{ top:-9px; left:0;}
+.heart::after{ left:9px; top:0;}
 
 @keyframes popHeart{
   to{
@@ -113,13 +109,22 @@ body{
   }
 }
 
+/* TEXTO */
 h1{
-  font-size:42px;
+  font-family:'Playfair Display', serif;
+  font-size:48px;
   margin-top:20px;
 }
 
+p{
+  font-family:'Poppins', sans-serif;
+  font-size:16px;
+  opacity:0.9;
+}
+
 #contador{
-  margin-top:10px;
+  margin-top:15px;
+  font-family:'Poppins', sans-serif;
   font-size:18px;
 }
 </style>
@@ -131,42 +136,59 @@ h1{
 
   <div class="trunk"></div>
 
-  <div class="branch left"></div>
-  <div class="branch right"></div>
+  <!-- RAMAS -->
+  <div class="branch left b1"></div>
+  <div class="branch right b2"></div>
+  <div class="branch left b3"></div>
+  <div class="branch right b4"></div>
+  <div class="branch left b5"></div>
+  <div class="branch right b6"></div>
 
-  <!-- Corazones organizados -->
-  <div class="heart" style="top:90px; left:130px; animation-delay:4s;"></div>
-  <div class="heart" style="top:70px; left:100px; animation-delay:4.2s;"></div>
-  <div class="heart" style="top:70px; left:170px; animation-delay:4.4s;"></div>
-  <div class="heart" style="top:50px; left:130px; animation-delay:4.6s;"></div>
-  <div class="heart" style="top:110px; left:90px; animation-delay:4.8s;"></div>
-  <div class="heart" style="top:110px; left:190px; animation-delay:5s;"></div>
+  <!-- MUCHOS CORAZONES -->
+  <script>
+    for(let i=0;i<40;i++){
+      const heart=document.createElement("div");
+      heart.className="heart";
+      heart.style.left=Math.random()*350+"px";
+      heart.style.top=Math.random()*200+"px";
+      heart.style.animationDelay=(4+Math.random()*2)+"s";
+      document.querySelector(".tree-container").appendChild(heart);
+    }
+  </script>
 
 </div>
 
-<h1>Nuestro Amor ❤️</h1>
+<h1>Nuestro Amor 💜</h1>
 <p>Eres lo mejor que me ha pasado.</p>
-
 <div id="contador"></div>
 
 <script>
 const fechaInicio = new Date("2022-08-22T00:00:00");
 
-function actualizarContador(){
+function calcularTiempo(){
   const ahora = new Date();
-  const diferencia = ahora - fechaInicio;
 
-  const dias = Math.floor(diferencia / (1000*60*60*24));
-  const horas = Math.floor((diferencia / (1000*60*60)) % 24);
-  const minutos = Math.floor((diferencia / (1000*60)) % 60);
-  const segundos = Math.floor((diferencia / 1000) % 60);
+  let años = ahora.getFullYear() - fechaInicio.getFullYear();
+  let meses = ahora.getMonth() - fechaInicio.getMonth();
+  let dias = ahora.getDate() - fechaInicio.getDate();
+
+  if(dias < 0){
+    meses--;
+    const ultimoMes = new Date(ahora.getFullYear(), ahora.getMonth(), 0).getDate();
+    dias += ultimoMes;
+  }
+
+  if(meses < 0){
+    años--;
+    meses += 12;
+  }
 
   document.getElementById("contador").innerHTML =
-  `Llevamos juntos ${dias} días, ${horas} horas, ${minutos} minutos y ${segundos} segundos ❤️`;
+  `Llevamos ${años} años, ${meses} meses y ${dias} días juntos 💖`;
 }
 
-setInterval(actualizarContador,1000);
-actualizarContador();
+setInterval(calcularTiempo,1000);
+calcularTiempo();
 </script>
 
 </body>
