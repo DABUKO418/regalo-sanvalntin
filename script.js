@@ -1,10 +1,16 @@
-@keyframes latido {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.03); }
-  100% { transform: scale(1); }
+const fechaInicio = new Date("2024-05-10"); // CAMBIA ESTA FECHA
+
+function actualizarContador() {
+  const ahora = new Date();
+  const diferencia = ahora - fechaInicio;
+
+  const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diferencia / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diferencia / (1000 * 60)) % 60);
+
+  document.getElementById("contador").innerHTML =
+    `Llevamos ${dias} días, ${horas} horas y ${minutos} minutos juntos 💜`;
 }
 
-.card {
-  animation: latido 3s infinite;
-}
+setInterval(actualizarContador, 1000);
 
