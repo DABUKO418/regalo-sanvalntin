@@ -1,48 +1,61 @@
-// ===== FECHA DE INICIO (CAMBIA ESTO POR LA TUYA) =====
-const fechaInicio = new Date("2024-06-01T00:00:00");
+document.addEventListener("DOMContentLoaded", function () {
 
-// ===== CONTADOR =====
-function actualizarContador() {
-  const ahora = new Date();
-  let diferencia = ahora - fechaInicio;
+  // ===== FECHA DE INICIO =====
+  const fechaInicio = new Date("2024-06-01T00:00:00");
 
-  const segundos = Math.floor(diferencia / 1000);
-  const minutos = Math.floor(segundos / 60);
-  const horas = Math.floor(minutos / 60);
-  const dias = Math.floor(horas / 24);
-  const meses = Math.floor(dias / 30);
+  // ===== CONTADOR =====
+  function actualizarContador() {
+    const ahora = new Date();
+    let diferencia = ahora - fechaInicio;
 
-  const restoDias = dias % 30;
-  const restoHoras = horas % 24;
-  const restoSegundos = segundos % 60;
+    const segundosTotales = Math.floor(diferencia / 1000);
+    const horasTotales = Math.floor(segundosTotales / 3600);
+    const diasTotales = Math.floor(horasTotales / 24);
+    const meses = Math.floor(diasTotales / 30);
 
-  document.getElementById("contador").innerHTML =
-    `${meses} meses 💜 ${restoDias} días 💕 ${restoHoras} horas ⏳ ${restoSegundos} segundos`;
-}
+    const dias = diasTotales % 30;
+    const horas = horasTotales % 24;
+    const segundos = segundosTotales % 60;
 
-setInterval(actualizarContador, 1000);
-actualizarContador();
+    const contador = document.getElementById("contador");
+    if (contador) {
+      contador.innerHTML =
+        `${meses} meses 💜 ${dias} días 💕 ${horas} horas ⏳ ${segundos} segundos`;
+    }
+  }
 
-// ===== BOTÓN =====
-const boton = document.getElementById("btnDestino");
-let activado = false;
+  setInterval(actualizarContador, 1000);
+  actualizarContador();
 
-boton.addEventListener("click", () => {
-  if (activado) return; // EVITA TEXTO INFINITO
+  // ===== BOTÓN DESTINO =====
+  const boton = document.getElementById("btnDestino");
+  let activado = false;
 
-  activado = true;
+  if (boton) {
+    boton.addEventListener("click", function () {
 
-  // Agrega animación pastel al texto principal
-  document.body.classList.add("pastel-animado");
+      if (activado) return;
+      activado = true;
 
-  // Activa animación del botón
-  boton.classList.add("activo");
+      // Activar animación botón
+      boton.classList.add("activo");
 
-  // Mostrar mensaje una sola vez
-  const mensaje = document.createElement("p");
-  mensaje.innerText = "Conexión establecida 💖 Destino enlazado para siempre...";
-  mensaje.style.marginTop = "20px";
-  mensaje.style.fontWeight = "bold";
+      // Activar colores pastel en TODO el contenedor principal
+      const contenedor = document.querySelector(".contenedor");
+      if (contenedor) {
+        contenedor.classList.add("pastel-animado");
+      }
 
-  document.body.appendChild(mensaje);
+      // Crear mensaje UNA SOLA VEZ
+      const mensaje = document.createElement("p");
+      mensaje.innerText = "Conexión establecida 💖 Destino enlazado para siempre...";
+      mensaje.style.marginTop = "25px";
+      mensaje.style.textAlign = "center";
+      mensaje.style.fontWeight = "bold";
+
+      document.body.appendChild(mensaje);
+    });
+  }
+
 });
+
