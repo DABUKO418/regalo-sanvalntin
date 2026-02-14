@@ -58,7 +58,7 @@ canvas {
 }
 
 button {
-  margin-top: 25px;
+  margin-top: 20px;
   padding: 12px 25px;
   border: none;
   border-radius: 30px;
@@ -78,13 +78,6 @@ button:hover {
   margin-top: 30px;
   font-size: 22px;
   letter-spacing: 2px;
-  animation: flotar 3s ease-in-out infinite;
-}
-
-@keyframes flotar {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-  100% { transform: translateY(0px); }
 }
 
 .hiddenImage {
@@ -112,10 +105,24 @@ button:hover {
 
   <button onclick="modoAmor()">¿Lista para viajar en el tiempo conmigo? 💜</button>
 
+  <button onclick="sanValentin()">¿Quieres ser mi San Valentín? 💘</button>
+
   <div class="hiddenImage" id="imagen">
     <img src="https://i.postimg.cc/jq107Nyw/Whats-App-Image-2026-02-14-at-11-43-21.jpg">
   </div>
+
+  <div class="hiddenImage" id="imagen2">
+    <!-- 🔥 CAMBIA ESTA IMAGEN POR LA QUE QUIERAS -->
+    <img src="https://i.postimg.cc/3x3QzSGq/love-heart.png">
+  </div>
+
 </div>
+
+<!-- 🎵 MÚSICA -->
+<audio id="musica" loop>
+  <!-- 🔥 CAMBIA "cancion.mp3" POR EL NOMBRE DE TU ARCHIVO -->
+  <source src="cancion.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 
@@ -162,10 +169,10 @@ setInterval(draw, 70);
 /* ================= TEXTO TERMINAL ================= */
 
 const mensaje = `
-Te encontraría. En cualquier tiempo. En cualquier lugar. Si tuviera que atravesar siglos... 
-Lo haría por ti." Y si mi alma tuviera que elegir de nuevo, siempre elegiría tu mirada, tu risa, tu forma de abrazarme como si el mundo se detuviera. 
-
-Porque no importa la época, no importa el destino, mi corazón siempre sabrá encontrarte.
+Te encontraría.
+En cualquier tiempo.
+En cualquier lugar.
+Porque mi corazón siempre sabrá encontrarte.
 `;
 
 let i = 0;
@@ -178,9 +185,8 @@ function escribir() {
 }
 escribir();
 
-/* ================= CONTADOR REAL ================= */
+/* ================= CONTADOR ================= */
 
-/* 🔥 CAMBIA ESTA FECHA A CUANDO EMPEZÓ TODO */
 const fechaInicio = new Date("2022-08-01T00:00:00");
 
 function actualizarContador() {
@@ -202,30 +208,35 @@ function actualizarContador() {
 setInterval(actualizarContador, 1000);
 actualizarContador();
 
-/* ================= BOTÓN MODO AMOR ================= */
+/* ================= BOTONES ================= */
+
+const musica = document.getElementById("musica");
+
+function reproducirMusica() {
+  musica.play();
+}
 
 function modoAmor() {
-
-  // Mostrar imagen
+  reproducirMusica();
   document.getElementById("imagen").style.display = "block";
-
-  // Cambiar color aleatorio
   colorActual = colores[Math.floor(Math.random()*colores.length)];
-
-  // Cambiar fondo con patrón simple
-  document.body.style.background = 
+  document.body.style.background =
     `linear-gradient(45deg, ${colorActual}, black)`;
+}
 
-  document.getElementById("card").style.boxShadow =
-    `0 0 40px ${colorActual}`;
-
-  document.getElementById("contador").style.color = colorActual;
+function sanValentin() {
+  reproducirMusica();
+  document.getElementById("imagen2").style.display = "block";
+  colorActual = colores[Math.floor(Math.random()*colores.length)];
+  document.body.style.background =
+    `linear-gradient(45deg, black, ${colorActual})`;
 }
 
 </script>
 
 </body>
 </html>
+
 
 
 
