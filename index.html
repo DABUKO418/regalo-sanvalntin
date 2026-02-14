@@ -2,50 +2,52 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Nuestra Historia 💜</title>
+  <title>Destino Enlazado 💜</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
-
-  <!-- Fuente romántica -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
+  <!-- FONDO HACKER -->
+  <canvas id="matrix"></canvas>
+
   <div class="contenedor">
 
-    <h1 class="titulo">Nuestro Viaje en el Tiempo 💫</h1>
-
-    <p class="mensaje-principal">
-      Cada segundo contigo es un recuerdo que el universo decidió guardar para siempre 💖
-    </p>
+    <!-- TEXTO TIPO MÁQUINA -->
+    <div class="terminal">
+      <p id="textoMaquina"></p>
+      <span class="cursor">|</span>
+    </div>
 
     <!-- CONTADOR -->
     <div class="contador-box">
-      <h2>Desde que comenzó nuestra historia ✨</h2>
       <div id="contador" class="contador"></div>
     </div>
 
     <!-- BOTONES -->
     <div class="botones">
-      <button id="btnViaje">
+
+      <button id="btnViaje" class="boton-img">
+        <img src="tu-imagen-1.png" alt="">
         ¿Lista para viajar en el tiempo conmigo? 💜
       </button>
 
-      <button id="btnDestino">
+      <button id="btnDestino" class="boton-img">
+        <img src="tu-imagen-2.png" alt="">
         Descubrir nuestro destino ✨
       </button>
+
     </div>
 
   </div>
 
-  <!-- Script SIEMPRE al final -->
   <script src="script.js"></script>
 
 </body>
 </html>
+
 
 
 
